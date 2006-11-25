@@ -50,7 +50,7 @@ function fetchLatest(clear) {
 
     getWithAuth(statusUrl, function(istimeout){
         if ( xml && (xml.readyState == 4 || istimeout == "timeout") ) {
-	    	setStatus("Updating");
+	    	showStatus("Updating");
             data = jQuery.httpData(xml, "json");
 			// We only care about the first ten entries
 			data = data.slice(0,10).reverse()
