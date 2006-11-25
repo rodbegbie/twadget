@@ -19,34 +19,32 @@ body {
 .timestamp { 
 	font-style: italic; 
 }
-#status {
+#status, #div-post {
 	color: #444444;
 	border: 2px solid #ffff33;
 	position: absolute;
 	z-index: 1;
-	width: 130px;
+	width: 100%;
 	left: 0px;
-	top: 0px;
 	background-color: #ffff99;
 	padding:2px;
 	text-align: center;
 }
+
+#status {
+	top: 0px;
+}
 #div-post {
-	text-align: center;
-	color: #444444;
-	border: 2px solid #ffff33;
-	position: absolute;
-	z-index: 1;
-	width: 130px;
-	left: 0px;
 	bottom: 0px;
-	background-color: #ffff99;
-	padding:2px;
+}
+#heading-post {
+	width: 100%;
+	cursor: pointer;
 }
 #textarea-post {
 	font-family: Calibri;
 	font-size: 8pt;
-	width: 110px;
+	width: 90%;
 	overflow: auto;
 }
 #button-post {

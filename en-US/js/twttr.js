@@ -1,7 +1,18 @@
 var username, password;
 var chirp = true;
-var url="http://twitter.com/statuses/friends_timeline.json";
+var xml;
+var statusUrl="http://twitter.com/statuses/friends_timeline.json";
+var updateUrl="http://twitter.com/statuses/update.json";
 var refreshTime = 2 * 60 * 1000;
+
+function getWithAuth(url, callback) {
+    // Sadly, can't use JQuery's handy $.get, since it don't handle HTTP Auth
+    // hence this hacked-up, not very bulletproof replacement.
+    xml = new XMLHttpRequest();
+    xml.open("GET", url, true, username, password);
+    xml.onreadystatechange = callback;
+    xml.send("");
+}
 
 function createEntry(data) {
     var li = document.createElement("li");
@@ -14,7 +25,7 @@ function createEntry(data) {
 
     var info = document.createElement("div");
     info.className = "info";
-    info.innerHTML = "&#151;&nbsp;";
+    info.innerHTML = "&mdash;&nbsp;";
 
     var author = document.createElement("span");
     author.className = "author";
@@ -38,13 +49,9 @@ function fetchLatest(clear) {
     $("#status").fadeIn("slow");
     $("#status")[0].innerHTML = "Refreshing...";
 
-    // Sadly, can't use JQuery's handy $.get, since it don't handle HTTP Auth
-    // hence this hacked-up, not very bulletproof replacement.
-    var xml = new XMLHttpRequest();
-    xml.open("GET", url, true, username, password);
-    var onreadystatechange = function(istimeout){
+    getWithAuth(statusUrl, function(istimeout){
         if ( xml && (xml.readyState == 4 || istimeout == "timeout") ) {
-	    $("#status")[0].innerHTML = "Updating";
+	    	$("#status")[0].innerHTML = "Updating";
             data = jQuery.httpData(xml, "json");
 			// We only care about the first ten entries
 			data = data.slice(0,10).reverse()
@@ -78,12 +85,9 @@ function fetchLatest(clear) {
             });
 			$("#status").fadeOut("slow");
         } else {
-	    $("#status")[0].innerHTML = "XMLReadyState: " + xmlReadyState;
-	}
-	    
-    };
-    xml.onreadystatechange = onreadystatechange;
-    xml.send("");
+	    	//$("#status")[0].innerHTML = "XMLReadyState: " + xml.readyState;
+		}  
+    });
 }
     
 $(document).ready(function() {
@@ -102,23 +106,60 @@ $(document).ready(function() {
 		restartTimer();
     }
 	
-	$("#div-post").toggle(function() {
+	/*
+	 *  Stuff to handle the Post form
+	 */
+	
+	$("#heading-post").toggle(function() {
 		$("#form-post").slideDown("fast");
 	}, function() {
 		$("#form-post").slideUp("fast");
 	})
 	
 	$("body").hover(function() {
-		$("#div-post").fadeIn("fast");
+		$("#div-post:hidden").fadeIn("fast");
 	}, function() {
-		$("#div-post").fadeOut("fast");
+		// Only fade out if the form is not visible.
+		if ($("#form-post:visible").length == 0) {
+			$("#div-post").fadeOut("fast");
+		}
 	})
 	
-	$("#textarea-post").click(function() {
-		//swallow
-		return false;
-	})
+	$("#button-post").click(function() {
+		var message = $("#textarea-post").val();
+		
+		if (message.length == 0) {
+			showStatus("Status too short");
+			return false;
+		} else if (message.length > 160) {
+			showStatus("Status too long");
+			return false;
+		}
+		
+		var url = updateUrl + "?status=" + escape(message);
+    	showStatus("POSTING...");
+
+	    getWithAuth(url, function(istimeout){
+	        if ( xml && (xml.readyState == 4 || istimeout == "timeout") ) {
+		    	showStatus("POSTED!");
+				$("#heading-post").click();
+				$("#textarea-post").val("");
+				// Do this in 2 seconds to allow Twitter time to update.
+				$(document).doin(2000, function() {
+					fetchLatest(false);
+				});
+	        } else {
+		    	$("#status")[0].innerHTML = "XMLReadyState: " + xml.readyState;
+			}  
+	    });		
+	});
 });
+
+function showStatus(message) {
+		$("#status")[0].innerHTML = message;
+		$("#status:hidden").fadeIn("fast");
+		$("#status").doin(3000, "fade", function() { $(this).fadeOut("fast")});
+}
 
 System.Gadget.settingsUI = "Settings.html";
 System.Gadget.onSettingsClosed = SettingsClosed;
