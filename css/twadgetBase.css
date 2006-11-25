@@ -24,9 +24,32 @@ body {
 	border: 2px solid #ffff33;
 	position: absolute;
 	z-index: 1;
-	width: 150px;
+	width: 130px;
 	left: 0px;
 	top: 0px;
 	background-color: #ffff99;
 	padding:2px;
+	text-align: center;
+}
+#div-post {
+	text-align: center;
+	color: #444444;
+	border: 2px solid #ffff33;
+	position: absolute;
+	z-index: 1;
+	width: 130px;
+	left: 0px;
+	bottom: 0px;
+	background-color: #ffff99;
+	padding:2px;
+}
+#textarea-post {
+	font-family: Calibri;
+	font-size: 8pt;
+	width: 110px;
+	overflow: auto;
+}
+#button-post {
+	font-family: Calibri;
+	font-size: 8pt;
 }

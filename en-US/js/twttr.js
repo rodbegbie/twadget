@@ -88,6 +88,8 @@ function fetchLatest(clear) {
     
 $(document).ready(function() {
     checkState();
+	$("#div-post").hide();
+	$("#form-post").hide();
     username = System.Gadget.Settings.read("username");
     password = System.Gadget.Settings.read("password");
     chirp = System.Gadget.Settings.read("chirp");
@@ -99,6 +101,23 @@ $(document).ready(function() {
     } else {
 		restartTimer();
     }
+	
+	$("#div-post").toggle(function() {
+		$("#form-post").slideDown("fast");
+	}, function() {
+		$("#form-post").slideUp("fast");
+	})
+	
+	$("body").hover(function() {
+		$("#div-post").fadeIn("fast");
+	}, function() {
+		$("#div-post").fadeOut("fast");
+	})
+	
+	$("#textarea-post").click(function() {
+		//swallow
+		return false;
+	})
 });
 
 System.Gadget.settingsUI = "Settings.html";
