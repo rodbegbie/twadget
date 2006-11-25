@@ -123,6 +123,17 @@ $(document).ready(function() {
 		}
 	})
 	
+	$("#textarea-post").keyup(function() {
+		var chars = $("#textarea-post").val().length;
+		$("#span-characters")[0].innerHTML = chars;
+		if (chars > 150) {
+			$("#span-characters").addClass("warn");
+		} else {
+			$("#span-characters").removeClass("warn");
+		}
+		 
+	})
+	
 	$("#button-post").click(function() {
 		var message = $("#textarea-post").val();
 		

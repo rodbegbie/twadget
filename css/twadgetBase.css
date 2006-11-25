@@ -47,6 +47,14 @@ body {
 	width: 90%;
 	overflow: auto;
 }
+#span-characters {
+	width: 18px;
+	margin-right: 5px;
+	text-align: right;
+}
+.warn {
+	color: red;
+}
 #button-post {
 	font-family: Calibri;
 	font-size: 8pt;
