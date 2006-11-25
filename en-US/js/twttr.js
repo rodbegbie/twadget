@@ -46,12 +46,11 @@ function createEntry(data) {
 }
 
 function fetchLatest(clear) {
-    $("#status").fadeIn("slow");
-    $("#status")[0].innerHTML = "Refreshing...";
+    showStatus("Refreshing...");
 
     getWithAuth(statusUrl, function(istimeout){
         if ( xml && (xml.readyState == 4 || istimeout == "timeout") ) {
-	    	$("#status")[0].innerHTML = "Updating";
+	    	setStatus("Updating");
             data = jQuery.httpData(xml, "json");
 			// We only care about the first ten entries
 			data = data.slice(0,10).reverse()
@@ -83,7 +82,6 @@ function fetchLatest(clear) {
 	                $(li).slideDown("fast");
                 }
             });
-			$("#status").fadeOut("slow");
         } else {
 	    	//$("#status")[0].innerHTML = "XMLReadyState: " + xml.readyState;
 		}  
@@ -149,7 +147,7 @@ $(document).ready(function() {
 					fetchLatest(false);
 				});
 	        } else {
-		    	$("#status")[0].innerHTML = "XMLReadyState: " + xml.readyState;
+		    	//$("#status")[0].innerHTML = "XMLReadyState: " + xml.readyState;
 			}  
 	    });		
 	});
