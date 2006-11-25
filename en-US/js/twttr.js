@@ -156,7 +156,9 @@ $(document).ready(function() {
 function showStatus(message) {
 		$("#status")[0].innerHTML = message;
 		$("#status:hidden").fadeIn("fast");
-		$("#status").doin(3000, "fade", function() { $(this).fadeOut("fast")});
+		$(document).doin(3000, "fade", function() {
+			$("#status:visible").fadeOut("fast")
+		});
 }
 
 System.Gadget.settingsUI = "Settings.html";
