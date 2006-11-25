@@ -1,0 +1,32 @@
+body { 
+	font-family: Calibri;
+}
+#entries {
+	list-style-type: none;
+	margin-left: 0px;
+}
+.entry {
+	margin-bottom: 2px;
+	background: #eeeeee;
+}
+.text { 
+	 
+}
+.info { 
+	color: #555555; 
+	background: #cccccc;
+}
+.timestamp { 
+	font-style: italic; 
+}
+#status {
+	color: #444444;
+	border: 2px solid #ffff33;
+	position: absolute;
+	z-index: 1;
+	width: 150px;
+	left: 0px;
+	top: 0px;
+	background-color: #ffff99;
+	padding:2px;
+}
