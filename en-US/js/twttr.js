@@ -153,6 +153,7 @@ $(document).ready(function() {
 		    	showStatus("POSTED!");
 				$("#heading-post").click();
 				$("#textarea-post").val("");
+				$("#span-characters")[0].innerHTML = "0";
 				// Do this in 2 seconds to allow Twitter time to update.
 				$(document).doin(2000, function() {
 					fetchLatest(false);
