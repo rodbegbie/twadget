@@ -67,7 +67,7 @@ function fetchLatest(clear) {
             $.each(data, function() {
                 var id = this.id;
                 if ($("#"+id).length != 0) {
-                    $("#" + id + "-timestamp")[0].innerHTML = this.relative_created_at;
+                    $("#" + id + "-timestamp")[0].innerHTML = ", " + this.relative_created_at;
                 } else {
                     li = createEntry(this);
                     $(ul).prepend(li);
@@ -165,7 +165,7 @@ function showStatus(message) {
 		$("#status")[0].innerHTML = message;
 		$("#status:hidden").fadeIn("fast");
 		$(document).doin(3000, "fade", function() {
-			$("#status:visible").fadeOut("fast")
+			$("#status:visible").fadeOut("slow")
 		});
 }
 
