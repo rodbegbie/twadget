@@ -1,60 +1,74 @@
 body { 
 	font-family: Calibri;
 }
+
+#gadgetBackground
+{
+	position: absolute;
+	z-index: -1;
+}
+
+#gadgetContent
+{
+	position:absolute;
+	overflow: hidden;
+	z-index: 1;
+}
+
 #entries {
 	list-style-type: none;
 	margin-left: 0px;
 }
 .entry {
-	margin-bottom: 2px;
-	background: #eeeeee;
+	margin-bottom: 1px;
+	background: #B3F2FE;
 }
 .text { 
 	 
 }
 .info { 
 	color: #555555; 
-	background: #cccccc;
+	text-align: right;
 }
 .timestamp { 
 	font-style: italic; 
 }
+
 #status, #div-post {
 	color: #444444;
-	border: 2px solid #ffff33;
+	border-top: 2px solid #ffffff;
+	border-bottom: 2px solid #ffffff;
 	position: absolute;
-	z-index: 1;
-	width: 100%;
-	left: 0px;
-	background-color: #ffff99;
+	z-index: 2;
+	width: 117px;
+	left: 7px;
+	background-color: #6DD9F6;
 	padding:2px;
 	text-align: center;
 }
 
-#status {
-	top: 0px;
-}
-#div-post {
-	bottom: 0px;
-}
 #heading-post {
 	width: 100%;
 	cursor: pointer;
 }
+
 #textarea-post {
 	font-family: Calibri;
 	font-size: 8pt;
 	width: 90%;
 	overflow: auto;
 }
+
 #span-characters {
 	width: 18px;
 	margin-right: 5px;
 	text-align: right;
 }
+
 .warn {
 	color: red;
 }
+
 #button-post {
 	font-family: Calibri;
 	font-size: 8pt;

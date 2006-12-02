@@ -4,3 +4,26 @@ body {
 	height: 300px;
 	font-size: 8pt;
 }
+
+#gadgetContent
+{
+	top: 10px;
+	left: 7px;
+	width: 117px;
+	height: 310px;
+}
+
+#status, #div-post {
+	width: 117px;
+	left: 7px;
+}
+#status {
+	top: 10px;
+}
+#div-post {
+	bottom: 30px;
+}
+
+.timestamp {
+	display: none;
+}

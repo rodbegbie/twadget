@@ -29,13 +29,13 @@ function createEntry(data) {
 
     var author = document.createElement("span");
     author.className = "author";
-    author.innerHTML = data.user.name + ", ";
+    author.innerHTML = data.user.name;
     author.id = data.user.id;
 
     var timestamp = document.createElement("span");
     timestamp.className = "timestamp";
     timestamp.id = data.id + "-timestamp";
-    timestamp.innerHTML = data.relative_created_at;
+    timestamp.innerHTML = ", " + data.relative_created_at;
 
     li.appendChild(text);
     info.appendChild(author);
@@ -50,7 +50,6 @@ function fetchLatest(clear) {
 
     getWithAuth(statusUrl, function(istimeout){
         if ( xml && (xml.readyState == 4 || istimeout == "timeout") ) {
-	    	showStatus("Updating");
             data = jQuery.httpData(xml, "json");
 			// We only care about the first ten entries
 			data = data.slice(0,10).reverse()
@@ -61,9 +60,6 @@ function fetchLatest(clear) {
                 ul = document.createElement("ul");
                 ul.id = "entries";
                 $("#gadgetContent")[0].appendChild(ul);
-				if (chirp) {
-				    System.Sound.playSound("sounds/canary.wav");
-				}
             } else {
                 ul = $("#entries")[0];
             }
@@ -204,10 +200,18 @@ function checkState()
     if (docked) {
 		with(document.body.style)
 			width = 130,
-			height = 300;
+			height = 350;
+		with(gadgetBackground.style)
+			width = 130,
+			height = 350;
+		gadgetBackground.src = "url(images/background-docked.png)";
     } else {
 		with(document.body.style)
 			width = 300,
-			height = 500;
+			height = 450;
+		with(gadgetBackground.style)
+			width = 300,
+			height = 450;
+		gadgetBackground.src = "url(images/background-undocked.png)";
     };
 }

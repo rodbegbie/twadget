@@ -1,5 +1,25 @@
 body { 
+	margin: 0px;
 	width: 300px;
-	height: 500px;
+	height: 450px;
 	font-size: 9pt;
+}
+#gadgetContent
+{
+	top: 15px;
+	left: 10px;
+	width: 280px;
+	height: 420px;
+}
+
+
+#status, #div-post {
+	width: 280px;
+	left: 10px;
+}
+#status {
+	top: 15px;
+}
+#div-post {
+	bottom: 55px;
 }
