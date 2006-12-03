@@ -4,14 +4,14 @@ body {
 	height: 450px;
 	font-size: 9pt;
 }
+
 #gadgetContent
 {
 	top: 15px;
 	left: 10px;
 	width: 280px;
-	height: 420px;
+	height: 370px;
 }
-
 
 #status, #div-post {
 	width: 280px;
