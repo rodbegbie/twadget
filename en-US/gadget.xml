@@ -2,7 +2,7 @@
 <gadget>
     <name>Twadget</name>
     <namespace>org.arsecandle.twadget</namespace>
-    <version>1.0.0.0</version>
+    <version>1.1.0.0</version>
     <author name="Rod Begbie">
       <info url="groovymother.com" text="groovy mother..." />
       <logo src="avatar80.png" />

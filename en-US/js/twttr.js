@@ -14,6 +14,16 @@ function getWithAuth(url, callback) {
     xml.send("");
 }
 
+function postWithAuth(url, topost, callback) {
+    // Sadly, can't use JQuery's handy $.get, since it don't handle HTTP Auth
+    // hence this hacked-up, not very bulletproof replacement.
+    xml = new XMLHttpRequest();
+    xml.open("POST", url, true, username, password);
+	xml.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xml.onreadystatechange = callback;
+	xml.send(topost);
+}
+
 function createEntry(data) {
     var li = document.createElement("li");
     li.className = "entry";
@@ -144,10 +154,10 @@ $(document).ready(function() {
 			return false;
 		}
 		
-		var url = updateUrl + "?status=" + escape(message);
+		var topost = "source=twadget&status=" + escape(message);
     	showStatus("POSTING...");
 
-	    getWithAuth(url, function(istimeout){
+	    postWithAuth(updateUrl, topost, function(istimeout){
 	        if ( xml && (xml.readyState == 4 || istimeout == "timeout") ) {
 		    	showStatus("POSTED!");
 				$("#heading-post").click();
