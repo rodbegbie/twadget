@@ -4,12 +4,15 @@ var xml;
 var statusUrl="http://twitter.com/statuses/friends_timeline.json";
 var updateUrl="http://twitter.com/statuses/update.json";
 var refreshTime = 2 * 60 * 1000;
+var MAX_LENGTH = 140;
 
 function getWithAuth(url, callback) {
     // Sadly, can't use JQuery's handy $.get, since it don't handle HTTP Auth
     // hence this hacked-up, not very bulletproof replacement.
     xml = new XMLHttpRequest();
     xml.open("GET", url, true, username, password);
+	xml.setRequestHeader("If-Modified-Since", "Sat, 1 Jan 2000 00:00:00 GMT");
+	xml.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xml.onreadystatechange = callback;
     xml.send("");
 }
@@ -19,6 +22,7 @@ function postWithAuth(url, topost, callback) {
     // hence this hacked-up, not very bulletproof replacement.
     xml = new XMLHttpRequest();
     xml.open("POST", url, true, username, password);
+	xml.setRequestHeader("If-Modified-Since", "Sat, 1 Jan 2000 00:00:00 GMT");
 	xml.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xml.onreadystatechange = callback;
 	xml.send(topost);
@@ -135,7 +139,7 @@ $(document).ready(function() {
 	$("#textarea-post").keyup(function() {
 		var chars = $("#textarea-post").val().length;
 		$("#span-characters")[0].innerHTML = chars;
-		if (chars > 150) {
+		if (chars > MAX_LENGTH) {
 			$("#span-characters").addClass("warn");
 		} else {
 			$("#span-characters").removeClass("warn");
@@ -149,7 +153,7 @@ $(document).ready(function() {
 		if (message.length == 0) {
 			showStatus("Status too short");
 			return false;
-		} else if (message.length > 160) {
+		} else if (message.length > MAX_LENGTH) {
 			showStatus("Status too long");
 			return false;
 		}
