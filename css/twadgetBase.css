@@ -30,6 +30,10 @@ body {
 	color: #555555; 
 	text-align: right;
 }
+a.author { 
+	color: #555555; 
+	text-decoration: none;
+}
 .timestamp { 
 	font-style: italic; 
 }

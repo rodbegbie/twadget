@@ -41,15 +41,17 @@ function createEntry(data) {
     info.className = "info";
     info.innerHTML = "&mdash;&nbsp;";
 
-    var author = document.createElement("span");
+    var author = document.createElement("a");
     author.className = "author";
+    author.href = "javascript:messageAt('" + data.user.screen_name + "')"
     author.innerHTML = data.user.name;
     author.id = data.user.id;
 
     var timestamp = document.createElement("span");
     timestamp.className = "timestamp";
     timestamp.id = data.id + "-timestamp";
-    timestamp.innerHTML = ", " + data.relative_created_at;
+	relative_created_at = relative_time(data.created_at)
+    timestamp.innerHTML = ", " + relative_created_at;
 
     li.appendChild(text);
     info.appendChild(author);
@@ -83,7 +85,8 @@ function fetchLatest(clear) {
 				// Look for existing instances of this entry
                 if ($("#"+id).length != 0) {
 					// Just update the timestamp
-                    $("#" + id + "-timestamp")[0].innerHTML = ", " + this.relative_created_at;
+					relative_created_at = relative_time(this.created_at)
+                    $("#" + id + "-timestamp")[0].innerHTML = ", " + relative_created_at;
                 } else {
 					// Create a new entry
                     li = createEntry(this);
@@ -123,6 +126,7 @@ $(document).ready(function() {
 	
 	$("#heading-post").toggle(function() {
 		$("#form-post").slideDown("fast");
+		$("#textarea-post")[0].focus();
 	}, function() {
 		$("#form-post").slideUp("fast");
 	})
@@ -136,16 +140,7 @@ $(document).ready(function() {
 		}
 	})
 	
-	$("#textarea-post").keyup(function() {
-		var chars = $("#textarea-post").val().length;
-		$("#span-characters")[0].innerHTML = chars;
-		if (chars > MAX_LENGTH) {
-			$("#span-characters").addClass("warn");
-		} else {
-			$("#span-characters").removeClass("warn");
-		}
-		 
-	})
+	$("#textarea-post").keyup(countChars)
 	
 	$("#button-post").click(function() {
 		var message = $("#textarea-post").val();
@@ -158,7 +153,7 @@ $(document).ready(function() {
 			return false;
 		}
 		
-		var topost = "source=twadget&status=" + escape(message);
+		var topost = "source=twadget&status=" + encodeURIComponent(message);
     	showStatus("POSTING...");
 
 	    postWithAuth(updateUrl, topost, function(istimeout){
@@ -231,4 +226,50 @@ function checkState()
 			height = 450;
 		gadgetBackground.src = "url(images/background-undocked.png)";
     };
+}
+
+
+// relative_time by Mike Demers
+// taken from http://twitter.pbwiki.com/RelativeTimeScripts
+function relative_time(time_value) {
+   time_value = time_value.replace("+0000", "GMT"); // Stupid IE tricks
+   var parsed_date = Date.parse(time_value);
+
+   var relative_to = new Date();
+   var delta = parseInt((relative_to.getTime() - parsed_date) / 1000);
+
+   if(delta < 60) {
+       return 'less than a minute ago';
+   } else if(delta < 120) {
+       return 'about a minute ago';
+   } else if(delta < (45*60)) {
+       return (parseInt(delta / 60)).toString() + ' minutes ago';
+   } else if(delta < (90*60)) {
+       return 'about an hour ago';
+   } else if(delta < (24*60*60)) {
+       return 'about ' + (parseInt(delta / 3600)).toString() + ' hours ago';
+   } else if(delta < (48*60*60)) {
+       return '1 day ago';
+   } else {
+       return (parseInt(delta / 86400)).toString() + ' days ago';
+   }
+}
+
+function countChars() {
+	var chars = $("#textarea-post").val().length;
+	$("#span-characters")[0].innerHTML = chars;
+	if (chars > MAX_LENGTH) {
+		$("#span-characters").addClass("warn");
+	} else {
+		$("#span-characters").removeClass("warn");
+	}
+}
+
+function messageAt(screenname) {
+	$("#textarea-post").val("@" + screenname + " ");
+    countChars();
+ 	if ($("#form-post:visible").length == 0) {
+   	    $("#heading-post").click();
+    }
+	$("#textarea-post")[0].focus();
 }
