@@ -53,7 +53,7 @@ a.author {
 
 #heading-post {
 	width: 100%;
-	cursor: pointer;
+	text-decoration: none;
 }
 
 #textarea-post {

@@ -6,6 +6,9 @@ var updateUrl="http://twitter.com/statuses/update.json";
 var refreshTime = 2 * 60 * 1000;
 var MAX_LENGTH = 140;
 
+var urlRegExp = /(^| )((http|https|mailto):(([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2}){2,}(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?([A-Za-z0-9$_+!*();/?:~-]))/g;
+var atRegExp = /(^| )@([a-z0-9_]+)/g;
+
 function getWithAuth(url, callback) {
     // Sadly, can't use JQuery's handy $.get, since it don't handle HTTP Auth
     // hence this hacked-up, not very bulletproof replacement.
@@ -35,7 +38,9 @@ function createEntry(data) {
 
     var text = document.createElement("span");
     text.className = "text";
-    text.innerHTML = data.text;
+    text.innerHTML = data.text.replace(urlRegExp,
+                                       ' <a href="$2">$2</a>').replace(atRegExp,
+                                                                       ' @<a href="http://twitter.com/$2">$2</a>');
 
     var info = document.createElement("div");
     info.className = "info";
